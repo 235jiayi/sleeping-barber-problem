@@ -2,33 +2,37 @@
   <div class="cover">
     <div class="left">
       <h1>请选择问题的场景：</h1>
-      <div style="margin-top: 40px; margin-bottom: 50px">
-        <el-radio
-          v-model="mode"
-          label="1"
-          border
-          size="medium"
-          style="
-            width: 150px;
-            text-indent: 5px;
-            line-height: 25px;
-            height: 50px;
-          "
-          >多理发师</el-radio
-        >
-        <el-radio
-          v-model="mode"
-          label="0"
-          border
-          size="medium"
-          style="
-            width: 150px;
-            text-indent: 5px;
-            line-height: 25px;
-            height: 50px;
-          "
-          >单理发师</el-radio
-        >
+      <div style="margin-top: 40px; margin-bottom: 50px; display: flex">
+        <div @click="multi">
+          <el-radio
+            v-model="mode"
+            label="1"
+            border
+            size="medium"
+            style="
+              width: 150px;
+              text-indent: 5px;
+              line-height: 25px;
+              height: 50px;
+            "
+            >多理发师</el-radio
+          >
+        </div>
+        <div style="margin-left: 20px" @click="single">
+          <el-radio
+            v-model="mode"
+            label="0"
+            border
+            size="medium"
+            style="
+              width: 150px;
+              text-indent: 5px;
+              line-height: 25px;
+              height: 50px;
+            "
+            >单理发师</el-radio
+          >
+        </div>
       </div>
       <div class="numConsumers" style="margin-bottom: 70px">
         <span class="left-span">顾客数量</span>
@@ -143,7 +147,7 @@
               >
                 <div
                   class="barber_customer"
-                  v-show="barberCustomer[index - 0].show"
+                  v-show="barberCustomer[index].show"
                 >
                   <div class="vLoop">
                     <img src="./assets/customer.webp" alt="" class="vHead" />
@@ -303,7 +307,7 @@ export default {
   data() {
     return {
       mode: "0",
-      numConsumers: 3,
+      numConsumers: 5,
       numBarbers: 1,
       CHAIRS: 2,
       HairCutList: [],
@@ -472,6 +476,18 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    single() {
+      console.log(222);
+      this.numConsumers = 5;
+      this.numBarbers = 1;
+      this.CHAIRS = 2;
+    },
+    multi() {
+      console.log(111);
+      this.numConsumers = 10;
+      this.numBarbers = 2;
+      this.CHAIRS = 2;
     },
     returnBtn() {
       this.HairCutVisible = false;
@@ -830,5 +846,8 @@ export default {
   .step {
     height: 40px;
   }
+}
+.move {
+  transform: translateX(-100%);
 }
 </style>
