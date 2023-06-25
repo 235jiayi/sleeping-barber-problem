@@ -332,7 +332,7 @@ export default {
           formatter: function (params) {
             let time = 0;
             for (let i = 1; i < params.length; i++) {
-              if (params[i].value != "-") {
+              if (params[i].value && params[i].value != "-") {
                 time = params[i].value - 0;
                 break;
               }
@@ -478,13 +478,11 @@ export default {
       }
     },
     single() {
-      console.log(222);
       this.numConsumers = 5;
       this.numBarbers = 1;
       this.CHAIRS = 2;
     },
     multi() {
-      console.log(111);
       this.numConsumers = 10;
       this.numBarbers = 2;
       this.CHAIRS = 2;
@@ -648,7 +646,7 @@ export default {
       this.currentTime++;
     },
     showStep(index) {
-      console.log(111);
+      // console.log(111);
       this.currentTime = this.timeList[index].currentTime;
       this.barberCustomer = this.timeList[index].barberCustomer;
       this.currentEvent = this.timeList[index].currentEvent;

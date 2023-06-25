@@ -135,7 +135,6 @@ async function multiBarber(
       );
       // console.log(`理发师${barberId}正在为第${i}位顾客理发`);
     } else {
-      // 如果等待人数已经达到椅子数
       mutexLock.release(); // 释放互斥锁
       // console.log(`门外的第${i}位顾客看见没有椅子就转身走了\n`);
       LeaveList.push({ customUid: i, leaveTime: time });
@@ -200,7 +199,7 @@ async function multiBarber(
 
   for (let i of timeLine) {
     if (i.length > 1) {
-      i.sort((a, b) => {
+      i = i.sort((a, b) => {
         if (a.type == 2 && b.type == 3 && a.chair == b.chair) {
           return 1;
         }
@@ -210,6 +209,9 @@ async function multiBarber(
           a.barberUid == b.barberUid
         ) {
           return 1;
+        }
+        if (a.type == 1 && b.type == 2) {
+          return -1;
         }
         const typeOrder = { 1: 1, 2: 2, 3: 3 }; // type属性的顺序
         const typeA = typeOrder[a.type] || 4; // 如果a.type不是1,3,5中的任意一个，则默认为4
@@ -223,5 +225,5 @@ async function multiBarber(
   // console.log(timeLine);
   return { HairCutList, LeaveList, barberList, timeLine };
 }
-multiBarber([], [], 2, 2, 10);
+// multiBarber([], [], 2, 2, 10);
 module.exports = multiBarber;

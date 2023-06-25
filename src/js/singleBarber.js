@@ -20,10 +20,6 @@ async function singleBarber(HairCutList, LeaveList, CHAIRS, numConsumers) {
     const interVal1 = setInterval(() => {
       time++;
       if (time > numConsumers * 10) {
-        // console.log("------理发名单------");
-        // console.table(HairCutList);
-        // console.log("------离开名单------");
-        // console.table(LeaveList);
         clearInterval(interVal1);
       }
     }, 1);
@@ -61,10 +57,8 @@ async function singleBarber(HairCutList, LeaveList, CHAIRS, numConsumers) {
       const arriveTime = co.time;
       mutexlock.release(); // 释放互斥锁
       barber.release(); // 释放理发师信号量，表示理发师可以开始理发
-      // console.log(`理发师正在给第${id}位等待的顾客理发`); // 输出相关信息
       let beginTime = time;
       await sleep(Math.floor(Math.random() * 10) + 3); // 模拟理发的时间
-      // console.log(`第${id}位等待的顾客理发完成`);
       if (beginTime != arriveTime) {
         const wait = `在椅子${chair}等待${beginTime - arriveTime}`;
         HairCutList.push({
@@ -95,7 +89,6 @@ async function singleBarber(HairCutList, LeaveList, CHAIRS, numConsumers) {
     if (waiting < CHAIRS) {
       // 如果等待人数小于椅子数
       let chair = selectChair(1);
-      // console.log(waitQueue, waiting, chair);
       waitQueue[chair].flag = true;
       waitQueue[chair].data = {
         time,
@@ -105,19 +98,15 @@ async function singleBarber(HairCutList, LeaveList, CHAIRS, numConsumers) {
       waiting++; // 增加等待人数
       mutexlock.release(); // 释放互斥锁
       consumers.release(); // 释放顾客信号量，等待理发师的理发
-      // console.log(`第${i}位顾客来了，正在接受理发师的理发服务`);
-      // console.log(`正在等待理发师理发的顾客还有${waiting}位\n`);
     } else {
       // 如果等待人数已经达到椅子数
       mutexlock.release(); // 释放互斥锁
-      // console.log(`门外的第${i}位顾客看见没有椅子就转身走了\n`);
       LeaveList.push({ customUid: i, leaveTime: time });
     }
   }
   timer();
   const promises = [];
   const pBarber = barberProcess(); // 启动理发师进程
-
   for (let i = 0; i < numConsumers; i++) {
     // 启动多个顾客进程
     promises.push(consumerProcess(i));
