@@ -9,7 +9,7 @@ async function singleBarber(HairCutList, LeaveList, CHAIRS, numConsumers) {
   }
   let waiting = 0;
   let time = 0;
-  const barber = new sem.Sema(0); // 理发师信号量，初始值为0，表示没有顾客需要理发
+  const barber = new sem.Sema(1); // 理发师信号量，初始值为0
   const consumers = new sem.Sema(0); // 顾客信号量，初始值为0，表示没有顾客需要理发
   const mutexlock = new sem.Sema(1); // 互斥锁信号量，初始值为1，表示未加锁状态
   const sleep = (ms) => {
@@ -98,6 +98,7 @@ async function singleBarber(HairCutList, LeaveList, CHAIRS, numConsumers) {
       waiting++; // 增加等待人数
       mutexlock.release(); // 释放互斥锁
       consumers.release(); // 释放顾客信号量，等待理发师的理发
+      barber.acquire();
     } else {
       // 如果等待人数已经达到椅子数
       mutexlock.release(); // 释放互斥锁

@@ -24,7 +24,7 @@ async function multiBarber(
 
   const barbers = [];
   for (let i = 0; i < numBarbers; i++) {
-    barbers.push(new sem.Sema(0)); // 理发师信号量数组，初始值为0，表示没有顾客需要理发
+    barbers.push(new sem.Sema(1)); // 理发师信号量数组，初始值为0
   }
 
   const consumers = new sem.Sema(0); // 顾客信号量，初始值为0，表示没有顾客需要理发
